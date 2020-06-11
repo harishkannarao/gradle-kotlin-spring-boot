@@ -3,13 +3,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("java")
 	id("org.springframework.boot").apply(false)
-	id("io.spring.dependency-management").apply(false)
 	kotlin("jvm").apply(false)
 	kotlin("plugin.spring").apply(false)
 }
 
 // variables for gradle.properties
 val javaVersion: String by project
+val kotlinVersion: String by project
+val springBootVersion: String by project
+val jacksonVersion: String by project
 
 group = "com.harishkannarao.springboot.kotlin"
 version = ""
@@ -18,8 +20,6 @@ java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
 allprojects {
 
 	apply(plugin= "java")
-	apply(plugin= "org.springframework.boot")
-	apply(plugin= "io.spring.dependency-management")
 	apply(plugin= "org.jetbrains.kotlin.jvm")
 	apply(plugin= "org.jetbrains.kotlin.plugin.spring")
 
@@ -28,11 +28,11 @@ allprojects {
 	}
 
 	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-		implementation("org.jetbrains.kotlin:kotlin-reflect")
-		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-		testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+		implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+		implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+		testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 			exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		}
 	}
