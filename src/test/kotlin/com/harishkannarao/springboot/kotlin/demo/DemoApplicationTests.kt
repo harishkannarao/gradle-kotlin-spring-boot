@@ -8,6 +8,7 @@ class DemoApplicationTests {
 
 	@Test
 	fun contextLoads() {
+		println(System.getProperty("test", "defaultValue"))
 	}
 
 }

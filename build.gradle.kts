@@ -30,6 +30,8 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	val properties = System.getProperties().entries.map { it.key.toString() to it.value }.toMap()
+	systemProperties(properties)
 }
 
 tasks.withType<KotlinCompile> {
