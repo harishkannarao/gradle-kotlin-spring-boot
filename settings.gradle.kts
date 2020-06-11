@@ -1,9 +1,7 @@
 rootProject.name = "gradle-kotlin-spring-boot"
 
 include(
-        "test-common",
-        "application",
-        "integration-test"
+        "application"
 )
 
 pluginManagement {

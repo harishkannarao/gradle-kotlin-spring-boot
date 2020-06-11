@@ -7,6 +7,20 @@
 
 ## Commands
 
+### Build (Unit and Integration tests)
+
     ./gradlew clean build
+
+### Spring Boot Run
     
     ./gradlew bootRun
+    
+### Acceptance tests
+
+Terminal 1:
+
+    ./gradlew bootRun
+    
+Terminal 2:
+
+    ./gradlew clean acceptanceTest    

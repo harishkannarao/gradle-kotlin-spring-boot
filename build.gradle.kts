@@ -12,6 +12,8 @@ val javaVersion: String by project
 val kotlinVersion: String by project
 val springBootVersion: String by project
 val jacksonVersion: String by project
+val restAssuredVersion: String by project
+val restAssuredCurlLoggerVersion: String by project
 
 group = "com.harishkannarao.springboot.kotlin"
 version = ""
@@ -35,6 +37,12 @@ allprojects {
 		testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 			exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		}
+		testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+			exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
+		}
+		testImplementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
+			exclude(module = "slf4j-api")
+		}
 	}
 
 	tasks.withType<Test> {
@@ -48,5 +56,71 @@ allprojects {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
 			jvmTarget = javaVersion
 		}
+	}
+
+	sourceSets {
+		create("intTest") {
+			compileClasspath += sourceSets.main.get().output
+			compileClasspath += sourceSets.test.get().output
+			runtimeClasspath += sourceSets.main.get().output
+			runtimeClasspath += sourceSets.test.get().output
+		}
+	}
+
+	val intTestImplementation: Configuration by configurations.getting {
+		extendsFrom(
+				configurations.implementation.get(),
+				configurations.testImplementation.get()
+		)
+	}
+
+	val intTestRuntimeOnly: Configuration by configurations.getting {
+		extendsFrom(
+				configurations.runtimeOnly.get(),
+				configurations.testRuntimeOnly.get()
+		)
+	}
+
+	val integrationTest = task<Test>("integrationTest") {
+		description = "Runs integration tests."
+		group = "verification"
+
+		testClassesDirs = sourceSets["intTest"].output.classesDirs
+		classpath = sourceSets["intTest"].runtimeClasspath
+		shouldRunAfter("test")
+	}
+
+	tasks.check { dependsOn(integrationTest) }
+
+	sourceSets {
+		create("accTest") {
+			compileClasspath += sourceSets.main.get().output
+			compileClasspath += sourceSets.test.get().output
+			runtimeClasspath += sourceSets.main.get().output
+			runtimeClasspath += sourceSets.test.get().output
+		}
+	}
+
+	val accTestImplementation: Configuration by configurations.getting {
+		extendsFrom(
+				configurations.implementation.get(),
+				configurations.testImplementation.get()
+		)
+	}
+
+	val accTestRuntimeOnly: Configuration by configurations.getting {
+		extendsFrom(
+				configurations.runtimeOnly.get(),
+				configurations.testRuntimeOnly.get()
+		)
+	}
+
+	val acceptanceTest = task<Test>("acceptanceTest") {
+		description = "Runs acceptance tests."
+		group = "verification"
+
+		testClassesDirs = sourceSets["accTest"].output.classesDirs
+		classpath = sourceSets["accTest"].runtimeClasspath
+		shouldRunAfter("test")
 	}
 }
