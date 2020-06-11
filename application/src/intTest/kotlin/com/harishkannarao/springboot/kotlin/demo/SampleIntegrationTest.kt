@@ -19,6 +19,6 @@ class SampleIntegrationTest : AbstractBaseIntTest() {
                 .get()
 
         assertThat(response.statusCode, equalTo(200))
-        assertThat(response.jsonPath().getString("message"), equalTo("success"))
+        assertThat(response.jsonPath().getString("message"), equalTo("success!!!"))
     }
 }

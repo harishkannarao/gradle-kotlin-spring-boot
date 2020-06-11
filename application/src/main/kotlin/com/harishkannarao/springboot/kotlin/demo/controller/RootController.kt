@@ -1,5 +1,6 @@
-package com.harishkannarao.springboot.kotlin.demo
+package com.harishkannarao.springboot.kotlin.demo.controller
 
+import com.harishkannarao.springboot.kotlin.demo.service.RootService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -7,12 +8,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(path = ["/"])
-class RootController {
+class RootController(
+        private val rootService: RootService
+) {
     @GetMapping
     fun success(): ResponseEntity<Map<String, String>> {
-        val entity = mapOf(
-                Pair("message", "success")
-        )
-        return ResponseEntity.ok().body(entity)
+        return ResponseEntity.ok().body(rootService.getEntity())
     }
 }
