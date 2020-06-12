@@ -18,4 +18,7 @@ WORKDIR /var/application/
 EXPOSE $SERVER_PORT
 
 # Run application
-CMD java -jar /var/application/application.jar
+CMD java \
+    -XX:MaxRAMPercentage=75.0 \
+    -XX:+PrintFlagsFinal \
+    -jar /var/application/application.jar
