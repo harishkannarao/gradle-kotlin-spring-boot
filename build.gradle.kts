@@ -23,7 +23,6 @@ allprojects {
 
 	apply(plugin= "java")
 	apply(plugin= "org.jetbrains.kotlin.jvm")
-	apply(plugin= "org.jetbrains.kotlin.plugin.spring")
 
 	repositories {
 		mavenCentral()
@@ -67,6 +66,7 @@ allprojects {
 		}
 	}
 
+	@Suppress("UNUSED_VARIABLE")
 	val intTestImplementation: Configuration by configurations.getting {
 		extendsFrom(
 				configurations.implementation.get(),
@@ -74,6 +74,7 @@ allprojects {
 		)
 	}
 
+	@Suppress("UNUSED_VARIABLE")
 	val intTestRuntimeOnly: Configuration by configurations.getting {
 		extendsFrom(
 				configurations.runtimeOnly.get(),
@@ -101,6 +102,7 @@ allprojects {
 		}
 	}
 
+	@Suppress("UNUSED_VARIABLE")
 	val accTestImplementation: Configuration by configurations.getting {
 		extendsFrom(
 				configurations.implementation.get(),
@@ -108,6 +110,7 @@ allprojects {
 		)
 	}
 
+	@Suppress("UNUSED_VARIABLE")
 	val accTestRuntimeOnly: Configuration by configurations.getting {
 		extendsFrom(
 				configurations.runtimeOnly.get(),
@@ -115,6 +118,7 @@ allprojects {
 		)
 	}
 
+	@Suppress("UNUSED_VARIABLE")
 	val acceptanceTest = task<Test>("acceptanceTest") {
 		description = "Runs acceptance tests."
 		group = "verification"
