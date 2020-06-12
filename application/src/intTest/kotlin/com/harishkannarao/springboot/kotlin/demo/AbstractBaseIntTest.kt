@@ -1,6 +1,6 @@
 package com.harishkannarao.springboot.kotlin.demo
 
-import com.harishkannarao.springboot.kotlin.demo.common.RestAssuredFactory
+import com.harishkannarao.springboot.kotlin.demo.common.restassured.RestAssuredFactory
 import io.restassured.specification.RequestSpecification
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,11 +14,7 @@ abstract class AbstractBaseIntTest {
     @Value("\${test.application.url}")
     protected lateinit var testApplicationUrl: String
 
-    protected fun createRequestSpec(): RequestSpecification {
-        return createRequestSpec(true)
-    }
-
-    protected fun createRequestSpec(followRedirect: Boolean): RequestSpecification {
+    protected fun createRequestSpec(followRedirect: Boolean = true): RequestSpecification {
         return RestAssuredFactory.createRequestSpec(testApplicationUrl, followRedirect)
     }
 }

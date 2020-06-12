@@ -1,4 +1,4 @@
-package com.harishkannarao.springboot.kotlin.demo.common
+package com.harishkannarao.springboot.kotlin.demo.common.restassured
 
 import com.github.dzieciou.testing.curl.CurlLoggingRestAssuredConfigFactory
 import io.restassured.builder.RequestSpecBuilder

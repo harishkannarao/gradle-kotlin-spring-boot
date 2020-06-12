@@ -1,7 +1,6 @@
 package com.harishkannarao.springboot.kotlin.demo
 
-import io.restassured.RestAssured
-import io.restassured.http.ContentType
+import com.harishkannarao.springboot.kotlin.demo.common.client.RootApiClient
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
@@ -11,12 +10,7 @@ class SampleIntegrationTest : AbstractBaseIntTest() {
     @Test
     fun `test hello world message`() {
         println(System.getProperty("test", "defaultValue"))
-        val response = RestAssured.given()
-                .spec(createRequestSpec())
-                .basePath("/")
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .get()
+        val response = RootApiClient(createRequestSpec()).get()
 
         assertThat(response.statusCode, equalTo(200))
         assertThat(response.jsonPath().getString("message"), equalTo("success!!!"))
