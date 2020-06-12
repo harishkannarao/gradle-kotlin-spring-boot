@@ -46,8 +46,8 @@ jobs:
       run: |
         ./ci-acceptance-test.sh
     - name: Archive test results
-        uses: actions/upload-artifact@v1
-        if: ${{ always() }}
-        with:
-          name: test-results
-          path: application/build/reports/tests
+      uses: actions/upload-artifact@v1
+      if: ${{ always() }}
+      with:
+        name: test-results
+        path: application/build/reports/tests
