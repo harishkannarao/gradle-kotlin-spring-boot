@@ -2,6 +2,7 @@
 
 ## Required Software, Tools and Version
 * Java JDK Version: 11 Adopt OpenJDK (`java -version`)
+* Docker Version: 19 (`docker --version`)
 * Git Client: Any latest version (`git --version`)
 * Integrated Development Environment: Any version of IntelliJ Idea or Eclipse (with `Annotations Processing` enabled for `Immutables` library)
 
@@ -17,10 +18,12 @@
     
 ### Acceptance tests
 
-Terminal 1:
-
-    ./gradlew bootRun
+    ./gradlew clean assemble
     
-Terminal 2:
-
-    ./gradlew clean acceptanceTest    
+    docker build --pull -t com.harishkannarao/kotlin-spring-boot:latest -f application/Dockerfile application/build/libs
+    
+    docker run --rm -d --name kotlin-spring-boot -p '8080:80' com.harishkannarao/kotlin-spring-boot:latest
+    
+    ./gradlew clean acceptanceTest
+    
+    docker stop kotlin-spring-boot
