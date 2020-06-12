@@ -22,7 +22,7 @@
     
     docker build --pull -t com.harishkannarao/kotlin-spring-boot:latest -f application/Dockerfile application/build/libs
     
-    docker run --rm -d --name kotlin-spring-boot -p '8080:80' com.harishkannarao/kotlin-spring-boot:latest
+    docker run --rm -d --name kotlin-spring-boot -p '8080:8080' com.harishkannarao/kotlin-spring-boot:latest
     
     ./gradlew clean acceptanceTest
     

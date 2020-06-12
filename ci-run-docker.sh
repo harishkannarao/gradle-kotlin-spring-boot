@@ -6,4 +6,4 @@ set -e
 # Print the commands as it is executed. Useful for debugging
 set -x
 
-docker run --rm -d --name kotlin-spring-boot -p '8080:80' com.harishkannarao/kotlin-spring-boot:latest
+docker run --rm -d --name kotlin-spring-boot -p '8080:8080' com.harishkannarao/kotlin-spring-boot:latest
