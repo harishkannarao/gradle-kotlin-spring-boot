@@ -12,7 +12,7 @@ class RootController(
         private val rootService: RootService
 ) {
     @GetMapping
-    fun success(): ResponseEntity<Map<String, String>> {
+    suspend fun success(): ResponseEntity<Map<String, String>> {
         return ResponseEntity.ok().body(rootService.getEntity())
     }
 }

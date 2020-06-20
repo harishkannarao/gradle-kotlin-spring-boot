@@ -10,6 +10,9 @@ plugins {
 // variables for gradle.properties
 val javaVersion: String by project
 val kotlinVersion: String by project
+val coroutinesVersion: String by project
+val reactorKotlinExtensionVersion: String by project
+val reactorTestVersion: String by project
 val springBootVersion: String by project
 val jacksonVersion: String by project
 val restAssuredVersion: String by project
@@ -29,13 +32,17 @@ allprojects {
 	}
 
 	dependencies {
-		implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+		implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 		implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutinesVersion}")
+		implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:${reactorKotlinExtensionVersion}")
 		testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 			exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		}
+		testImplementation("io.projectreactor:reactor-test:$reactorTestVersion")
 		testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
 			exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
 		}
