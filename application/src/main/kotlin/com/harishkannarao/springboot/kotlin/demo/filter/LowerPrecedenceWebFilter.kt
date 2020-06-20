@@ -1,5 +1,7 @@
 package com.harishkannarao.springboot.kotlin.demo.filter
 
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping
@@ -9,7 +11,8 @@ import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
 
 @Component
-class ExampleWebFilter(
+@Order(value = Ordered.LOWEST_PRECEDENCE)
+class LowerPrecedenceWebFilter(
         private val handlerMapping: RequestMappingHandlerMapping
 ) : WebFilter {
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
