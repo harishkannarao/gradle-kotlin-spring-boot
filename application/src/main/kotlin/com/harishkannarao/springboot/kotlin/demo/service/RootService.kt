@@ -8,7 +8,7 @@ class RootService(
         @Value("\${app.message}") private val message: String
 ) {
 
-    fun getEntity(): Map<String, String> {
+    suspend fun getEntity(): Map<String, String> {
         return mapOf(
                 Pair("message", message)
         )
