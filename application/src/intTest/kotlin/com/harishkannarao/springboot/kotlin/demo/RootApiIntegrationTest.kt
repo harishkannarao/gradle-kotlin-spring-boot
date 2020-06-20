@@ -6,9 +6,9 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 
 @Suppress("FunctionName")
-class SampleIntegrationTest : AbstractBaseIntTest() {
+class RootApiIntegrationTest : AbstractBaseIntTest() {
     @Test
-    fun `test hello world message`() {
+    internal fun `test hello world message`() {
         println(System.getProperty("test", "defaultValue"))
         val response = RootApiClient(createRequestSpec()).get()
 
