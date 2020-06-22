@@ -24,32 +24,28 @@ class CustomerServiceUnitTest {
     }
 
     @Test
-    internal fun `return customer by id from repository`() {
-        runBlocking {
-            val expected = CustomerResponseDto(
-                    id = "test-id",
-                    firstName = "firstName",
-                    lastName = "lastName"
-            )
-            `when`(mockCustomerRepository.getById("test-id")).thenReturn(expected)
-            val result = customerService.getById("test-id")
-            assertThat(result, equalTo(expected))
-        }
+    internal fun `return customer by id from repository`() = runBlocking {
+        val expected = CustomerResponseDto(
+                id = "test-id",
+                firstName = "firstName",
+                lastName = "lastName"
+        )
+        `when`(mockCustomerRepository.getById("test-id")).thenReturn(expected)
+        val result = customerService.getById("test-id")
+        assertThat(result, equalTo(expected))
     }
 
     @Test
-    internal fun `return all customers from repository`() {
-        runBlocking {
-            val expected = listOf<CustomerResponseDto>(
-                    CustomerResponseDto(
-                            id = "test-id",
-                            firstName = "firstName",
-                            lastName = "lastName"
-                    )
-            )
-            `when`(mockCustomerRepository.getAll()).thenReturn(expected.asFlow())
-            val result = customerService.getAll()
-            assertThat(result.toList(), containsInAnyOrder(*expected.toTypedArray()))
-        }
+    internal fun `return all customers from repository`() = runBlocking {
+        val expected = listOf<CustomerResponseDto>(
+                CustomerResponseDto(
+                        id = "test-id",
+                        firstName = "firstName",
+                        lastName = "lastName"
+                )
+        )
+        `when`(mockCustomerRepository.getAll()).thenReturn(expected.asFlow())
+        val result = customerService.getAll()
+        assertThat(result.toList(), containsInAnyOrder(*expected.toTypedArray()))
     }
 }
