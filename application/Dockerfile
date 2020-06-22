@@ -27,4 +27,5 @@ USER appuser
 CMD java \
     -XX:MaxRAMPercentage=75.0 \
     -XX:+PrintFlagsFinal \
+    -Dreactor.netty.http.server.accessLogEnabled=true \
     -jar /var/application/application.jar
