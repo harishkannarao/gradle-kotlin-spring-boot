@@ -17,6 +17,7 @@ val springBootVersion: String by project
 val jacksonVersion: String by project
 val restAssuredVersion: String by project
 val restAssuredCurlLoggerVersion: String by project
+val monetaVersion: String by project
 
 group = "com.harishkannarao.springboot.kotlin"
 version = ""
@@ -39,6 +40,9 @@ allprojects {
 		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
 		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutinesVersion}")
 		implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:${reactorKotlinExtensionVersion}")
+
+		implementation("org.javamoney:moneta:$monetaVersion")
+
 		testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 			exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		}
