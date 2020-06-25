@@ -45,7 +45,7 @@ class CurrencyServiceTest {
         val exchangeCurrency = Monetary.getCurrency("GBP")
         val expected = Money.of(BigDecimal.valueOf(0.12), exchangeCurrency)
 
-        val result = currencyService.convertCurrencyWithRounding(input, exchangeRate, exchangeCurrency,  2, RoundingMode.HALF_UP)
+        val result = currencyService.convertCurrencyWithRounding(input, exchangeRate, exchangeCurrency,  RoundingMode.HALF_UP)
 
         assertThat(result.numberStripped, equalTo(expected.numberStripped))
         assertThat(result, equalTo(expected))
@@ -58,20 +58,7 @@ class CurrencyServiceTest {
         val exchangeCurrency = Monetary.getCurrency("GBP")
         val expected = Money.of(BigDecimal.valueOf(0.11), exchangeCurrency)
 
-        val result = currencyService.convertCurrencyWithRounding(input, exchangeRate, exchangeCurrency, 2, RoundingMode.FLOOR)
-
-        assertThat(result.numberStripped, equalTo(expected.numberStripped))
-        assertThat(result, equalTo(expected))
-    }
-
-    @Test
-    internal fun `converts the currency by exchange rate with ceil rounding`() {
-        val input = Money.of(BigDecimal.valueOf(11), Monetary.getCurrency("INR"))
-        val exchangeRate = BigDecimal.valueOf(0.0106578)
-        val exchangeCurrency = Monetary.getCurrency("GBP")
-        val expected = Money.of(BigDecimal.valueOf(0.2), exchangeCurrency)
-
-        val result = currencyService.convertCurrencyWithRounding(input, exchangeRate, exchangeCurrency, 1, RoundingMode.CEILING)
+        val result = currencyService.convertCurrencyWithRounding(input, exchangeRate, exchangeCurrency, RoundingMode.FLOOR)
 
         assertThat(result.numberStripped, equalTo(expected.numberStripped))
         assertThat(result, equalTo(expected))

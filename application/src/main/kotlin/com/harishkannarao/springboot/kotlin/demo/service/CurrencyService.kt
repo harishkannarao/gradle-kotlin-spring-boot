@@ -12,7 +12,7 @@ class CurrencyService {
     fun divideCurrency(money: Money, by: BigDecimal): Pair<Money, Money> {
         val rounding = Monetary.getRounding(
                 RoundingQueryBuilder.of()
-                        .setScale(2)
+                        .setScale(money.currency.defaultFractionDigits)
                         .set(RoundingMode.HALF_UP)
                         .build()
         )
@@ -26,10 +26,10 @@ class CurrencyService {
         return Money.of(input.multiply(exchangeRate).number, exchangeCurrency)
     }
 
-    fun convertCurrencyWithRounding(input: Money, exchangeRate: BigDecimal, exchangeCurrency: CurrencyUnit, scale: Int = 2, roundingMode: RoundingMode = RoundingMode.HALF_UP): Money {
+    fun convertCurrencyWithRounding(input: Money, exchangeRate: BigDecimal, exchangeCurrency: CurrencyUnit, roundingMode: RoundingMode = RoundingMode.HALF_UP): Money {
         val rounding = Monetary.getRounding(
                 RoundingQueryBuilder.of()
-                        .setScale(scale)
+                        .setScale(exchangeCurrency.defaultFractionDigits)
                         .set(roundingMode)
                         .build()
         )
