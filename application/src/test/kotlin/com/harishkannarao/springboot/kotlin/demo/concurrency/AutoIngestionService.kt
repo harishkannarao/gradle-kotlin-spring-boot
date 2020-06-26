@@ -24,8 +24,7 @@ class AutoIngestionService(
     }
 
     private fun ingest() {
-        val updatedList = list.toMutableList()
-        updatedList.add(Pair(OffsetDateTime.now(ZoneOffset.UTC), BigDecimal.valueOf(Math.random())))
-        list = updatedList.takeLast(bufferSize).toList()
+        list = list.plus(Pair(OffsetDateTime.now(ZoneOffset.UTC), BigDecimal.valueOf(Math.random())))
+                .takeLast(bufferSize)
     }
 }
