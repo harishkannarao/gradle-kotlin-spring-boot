@@ -1,9 +1,6 @@
 package com.harishkannarao.springboot.kotlin.demo.concurrency
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 class DemoApplication {
     companion object {
@@ -29,8 +26,8 @@ class DemoApplication {
                         autoConsumerService.observe(5)
                     }
                     if (result.await()) {
-                        ingestionJob.cancel()
-                        consumerJob.cancel()
+                        ingestionJob.cancelAndJoin()
+                        consumerJob.cancelAndJoin()
                         break
                     }
                 }
