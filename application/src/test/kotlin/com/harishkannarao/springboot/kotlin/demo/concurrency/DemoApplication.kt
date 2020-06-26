@@ -8,18 +8,22 @@ class DemoApplication {
         fun main(args: Array<String>) {
             runBlocking {
                 val autoIngestionService = AutoIngestionService(
-                        intervalInMillis = 1500L,
                         bufferSize = 5
                 )
                 val autoConsumerService = AutoConsumerService(
-                        autoIngestionService = autoIngestionService,
-                        intervalInMillis = 500L
+                        autoIngestionService = autoIngestionService
                 )
                 val ingestionJob = launch { // launch a new coroutine in background and continue
-                    autoIngestionService.start()
+                    while (isActive) {
+                        autoIngestionService.ingest()
+                        delay(1500L)
+                    }
                 }
                 val consumerJob = launch { // launch a new coroutine in background and continue
-                    autoConsumerService.start()
+                    while (isActive) {
+                        autoConsumerService.consume()
+                        delay(500L)
+                    }
                 }
                 while (true) {
                     val result = GlobalScope.async {

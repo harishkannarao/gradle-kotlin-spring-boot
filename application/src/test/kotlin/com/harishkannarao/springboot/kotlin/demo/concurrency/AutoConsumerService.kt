@@ -1,18 +1,8 @@
 package com.harishkannarao.springboot.kotlin.demo.concurrency
 
-import kotlinx.coroutines.delay
-
 class AutoConsumerService(
-        private val autoIngestionService: AutoIngestionService,
-        private val intervalInMillis: Long = 2500L
+        private val autoIngestionService: AutoIngestionService
 ) {
-    suspend fun start() {
-        while (true) {
-            consume()
-            delay(intervalInMillis)
-        }
-    }
-
     fun consume() {
         println(autoIngestionService.getList())
     }
