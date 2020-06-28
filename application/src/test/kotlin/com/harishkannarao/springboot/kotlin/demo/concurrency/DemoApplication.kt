@@ -26,7 +26,7 @@ class DemoApplication {
                     }
                 }
                 while (true) {
-                    val result = GlobalScope.async {
+                    val result = async {
                         autoConsumerService.observe(5)
                     }
                     if (result.await()) {
