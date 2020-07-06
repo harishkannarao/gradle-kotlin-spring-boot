@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 class CustomerServiceUnitTest {
     private lateinit var mockCustomerRepository: CustomerRepository
@@ -36,6 +38,18 @@ class CustomerServiceUnitTest {
     }
 
     @Test
+    internal fun `return customer by id as Mono from repository`() {
+        val expected = CustomerResponseDto(
+                id = "test-id",
+                firstName = "firstName",
+                lastName = "lastName"
+        )
+        `when`(mockCustomerRepository.getByIdAsMono("test-id")).thenReturn(Mono.just(expected))
+        val result = customerService.getByIdAsMono("test-id")
+        assertThat(result.block(), equalTo(expected))
+    }
+
+    @Test
     internal fun `return all customers from repository`() = runBlocking {
         val expected = listOf<CustomerResponseDto>(
                 CustomerResponseDto(
@@ -47,5 +61,19 @@ class CustomerServiceUnitTest {
         `when`(mockCustomerRepository.getAll()).thenReturn(expected.asFlow())
         val result = customerService.getAll()
         assertThat(result.toList(), containsInAnyOrder(*expected.toTypedArray()))
+    }
+    
+    @Test
+    internal fun `return all customers as Flux from repository`() {
+        val expected = listOf<CustomerResponseDto>(
+                CustomerResponseDto(
+                        id = "test-id",
+                        firstName = "firstName",
+                        lastName = "lastName"
+                )
+        )
+        `when`(mockCustomerRepository.getAllAsFlux()).thenReturn(Flux.fromIterable(expected))
+        val result = customerService.getAllAsFlux()
+        assertThat(result.toIterable(), containsInAnyOrder(*expected.toTypedArray()))
     }
 }
