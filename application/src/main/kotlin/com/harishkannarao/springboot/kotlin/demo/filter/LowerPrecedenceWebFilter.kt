@@ -18,7 +18,10 @@ class LowerPrecedenceWebFilter(
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         val request = exchange.request
         val response = exchange.response
-        val handler = handlerMapping.getHandler(exchange).toProcessor().peek() as HandlerMethod
+        val processor = handlerMapping.getHandler(exchange).toProcessor().peek()
+        if (processor != null && processor is HandlerMethod) {
+            val handler: HandlerMethod = processor
+        }
         return chain.filter(exchange)
     }
 }

@@ -20,6 +20,6 @@ class CustomerRepository {
     suspend fun getAll(): Flow<CustomerResponseDto> = coroutineScope {
         val customer1 = async { getById("1") }
         val customer2 = async { getById("2") }
-        listOf(customer1.await(), customer2.await()).asFlow()
+        sequenceOf(customer1.await(), customer2.await()).asFlow()
     }
 }
