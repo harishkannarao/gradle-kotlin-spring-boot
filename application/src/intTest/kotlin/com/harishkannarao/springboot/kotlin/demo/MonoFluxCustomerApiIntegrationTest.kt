@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 @Suppress("FunctionName")
 class MonoFluxCustomerApiIntegrationTest: AbstractBaseIntTest() {
     @Test
-    internal fun `get customer by id`() {
+    fun `get customer by id`() {
         val response = MonoFluxCustomerApiClient(createRequestSpec())
                 .getById("test-id")
 
@@ -26,7 +26,7 @@ class MonoFluxCustomerApiIntegrationTest: AbstractBaseIntTest() {
     }
 
     @Test
-    internal fun `get all customers`() {
+    fun `get all customers`() {
         val response = MonoFluxCustomerApiClient(createRequestSpec())
                 .getAll()
 

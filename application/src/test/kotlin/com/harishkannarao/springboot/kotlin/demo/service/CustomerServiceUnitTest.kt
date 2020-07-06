@@ -20,13 +20,13 @@ class CustomerServiceUnitTest {
     private lateinit var customerService: CustomerService
 
     @BeforeEach
-    internal fun setUp() {
+    fun setUp() {
         mockCustomerRepository = mock(CustomerRepository::class.java)
         customerService = CustomerService(mockCustomerRepository)
     }
 
     @Test
-    internal fun `return customer by id from repository`() = runBlocking {
+    fun `return customer by id from repository`() = runBlocking {
         val expected = CustomerResponseDto(
                 id = "test-id",
                 firstName = "firstName",
@@ -38,7 +38,7 @@ class CustomerServiceUnitTest {
     }
 
     @Test
-    internal fun `return customer by id as Mono from repository`() {
+    fun `return customer by id as Mono from repository`() {
         val expected = CustomerResponseDto(
                 id = "test-id",
                 firstName = "firstName",
@@ -50,7 +50,7 @@ class CustomerServiceUnitTest {
     }
 
     @Test
-    internal fun `return all customers from repository`() = runBlocking {
+    fun `return all customers from repository`() = runBlocking {
         val expected = listOf<CustomerResponseDto>(
                 CustomerResponseDto(
                         id = "test-id",
@@ -62,9 +62,9 @@ class CustomerServiceUnitTest {
         val result = customerService.getAll()
         assertThat(result.toList(), containsInAnyOrder(*expected.toTypedArray()))
     }
-    
+
     @Test
-    internal fun `return all customers as Flux from repository`() {
+    fun `return all customers as Flux from repository`() {
         val expected = listOf<CustomerResponseDto>(
                 CustomerResponseDto(
                         id = "test-id",
