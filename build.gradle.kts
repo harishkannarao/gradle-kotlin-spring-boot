@@ -33,6 +33,7 @@ allprojects {
 
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+		implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 		implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")

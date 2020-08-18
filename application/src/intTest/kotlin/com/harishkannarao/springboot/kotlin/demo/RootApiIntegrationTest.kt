@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 @Suppress("FunctionName")
 class RootApiIntegrationTest : AbstractBaseIntTest() {
     @Test
-    internal fun `test hello world message`() {
+    fun `test hello world message`() {
         println(System.getProperty("test", "defaultValue"))
         val response = RootApiClient(createRequestSpec()).get()
 
