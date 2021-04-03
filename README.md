@@ -27,3 +27,7 @@
     ./gradlew clean acceptanceTest
     
     docker stop kotlin-spring-boot
+
+### Change project version
+
+    ./gradlew clean build -PprojectVersion=1.0.9
