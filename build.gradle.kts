@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -55,6 +56,7 @@ allprojects {
 
 	tasks.withType<Test> {
 		useJUnitPlatform()
+		testLogging.events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
 		val properties = System.getProperties().entries.map { it.key.toString() to it.value }.toMap()
 		systemProperties(properties)
 	}

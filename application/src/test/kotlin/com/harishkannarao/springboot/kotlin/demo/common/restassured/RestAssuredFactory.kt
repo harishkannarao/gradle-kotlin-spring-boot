@@ -1,6 +1,6 @@
 package com.harishkannarao.springboot.kotlin.demo.common.restassured
 
-import com.github.dzieciou.testing.curl.CurlLoggingRestAssuredConfigFactory
+import com.github.dzieciou.testing.curl.CurlRestAssuredConfigFactory
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.config.RedirectConfig
 import io.restassured.config.RestAssuredConfig
@@ -23,7 +23,7 @@ object RestAssuredFactory {
     private fun createRestAssuredConfig(followRedirect: Boolean): RestAssuredConfig {
         val restAssuredConfig = RestAssuredConfig.config()
                 .redirect(createRedirectConfig(followRedirect))
-        return CurlLoggingRestAssuredConfigFactory.updateConfig(restAssuredConfig)
+        return CurlRestAssuredConfigFactory.updateConfig(restAssuredConfig)
     }
 
     private fun createRedirectConfig(followRedirect: Boolean): RedirectConfig {

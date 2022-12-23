@@ -1,7 +1,7 @@
 # Spring Boot with Kotlin
 
 ## Required Software, Tools and Version
-* Java JDK Version: 11 Adopt OpenJDK (`java -version`)
+* Java JDK Version: 17 (`java -version`)
 * Docker Version: 19 (`docker --version`)
 * Git Client: Any latest version (`git --version`)
 * Integrated Development Environment: Any version of IntelliJ Idea or Eclipse

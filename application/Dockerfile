@@ -1,9 +1,10 @@
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 # Install basic debugging packages
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y jq
+RUN apk update
+RUN apk upgrade
+RUN apk --no-cache add curl
+RUN apk --no-cache add jq
 
 # Set default values for environment variables
 ENV SERVER_PORT="8080"
@@ -18,8 +19,8 @@ WORKDIR /var/application/
 EXPOSE $SERVER_PORT
 
 # Create app user
-RUN groupadd -g 999 appuser
-RUN useradd -r -u 999 -g appuser appuser
+RUN addgroup -S appgroup
+RUN adduser -S -D appuser -G appgroup
 
 USER appuser
 

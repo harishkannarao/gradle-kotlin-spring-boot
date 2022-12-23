@@ -12,6 +12,10 @@ class TestProperties(location: String) {
     }
 
     fun applicationBaseUrl(): String {
-        return properties.getProperty("application.baseUrl")
+        val applicationBaseUrl = properties.getProperty("application.baseUrl")
+        if (applicationBaseUrl.contains("localhost") && System.getenv().containsKey("MINIKUBE_IP")) {
+            return applicationBaseUrl.replace("localhost", System.getenv("MINIKUBE_IP"))
+        }
+        return applicationBaseUrl
     }
 }
