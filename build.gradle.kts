@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
+	id("java-test-fixtures")
 	id("org.springframework.boot").apply(false)
 	kotlin("jvm").apply(false)
 	kotlin("plugin.spring").apply(false)
@@ -27,6 +28,7 @@ java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
 allprojects {
 
 	apply(plugin= "java")
+	apply(plugin= "java-test-fixtures")
 	apply(plugin= "org.jetbrains.kotlin.jvm")
 
 	repositories {
@@ -42,22 +44,85 @@ allprojects {
 		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
 		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutinesVersion}")
 		implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:${reactorKotlinExtensionVersion}")
-		testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-			exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-		}
-		testImplementation("io.projectreactor:reactor-test:$reactorTestVersion")
-		testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+		testFixturesImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
 			exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
 		}
-		testImplementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
+		testFixturesImplementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
 			exclude(module = "slf4j-api")
+		}
+	}
+
+	testing {
+		suites {
+			val test by getting(JvmTestSuite::class) {
+				dependencies {
+					implementation(project())
+					implementation(testFixtures(project()))
+					implementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+						exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+					}
+					implementation("io.projectreactor:reactor-test:$reactorTestVersion")
+					implementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+						exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
+					}
+					implementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
+						exclude(module = "slf4j-api")
+					}
+				}
+			}
+			val integrationTest by registering(JvmTestSuite::class) {
+				dependencies {
+					implementation(project())
+					implementation(testFixtures(project()))
+					implementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+						exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+					}
+					implementation("io.projectreactor:reactor-test:$reactorTestVersion")
+					implementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+						exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
+					}
+					implementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
+						exclude(module = "slf4j-api")
+					}
+				}
+				targets {
+					all {
+						testTask.configure {
+							mustRunAfter(test)
+						}
+					}
+				}
+			}
+			val acceptanceTest by registering(JvmTestSuite::class) {
+				dependencies {
+					implementation(project())
+					implementation(testFixtures(project()))
+					implementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+						exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+					}
+					implementation("io.projectreactor:reactor-test:$reactorTestVersion")
+					implementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+						exclude(group = "com.sun.xml.bind", module = "jaxb-osgi")
+					}
+					implementation("com.github.dzieciou.testing:curl-logger:$restAssuredCurlLoggerVersion") {
+						exclude(module = "slf4j-api")
+					}
+				}
+				targets {
+					all {
+						testTask.configure {
+							mustRunAfter(test)
+						}
+					}
+				}
+			}
 		}
 	}
 
 	tasks.withType<Test> {
 		useJUnitPlatform()
 		testLogging.events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
-		val properties = System.getProperties().entries.map { it.key.toString() to it.value }.toMap()
+		val properties = System.getProperties().entries.associate { it.key.toString() to it.value }
 		systemProperties(properties)
 	}
 
@@ -72,74 +137,7 @@ allprojects {
 		}
 	}
 
-	sourceSets {
-		create("intTest") {
-			compileClasspath += sourceSets.main.get().output
-			compileClasspath += sourceSets.test.get().output
-			runtimeClasspath += sourceSets.main.get().output
-			runtimeClasspath += sourceSets.test.get().output
-		}
-	}
-
-	@Suppress("UNUSED_VARIABLE")
-	val intTestImplementation: Configuration by configurations.getting {
-		extendsFrom(
-				configurations.implementation.get(),
-				configurations.testImplementation.get()
-		)
-	}
-
-	@Suppress("UNUSED_VARIABLE")
-	val intTestRuntimeOnly: Configuration by configurations.getting {
-		extendsFrom(
-				configurations.runtimeOnly.get(),
-				configurations.testRuntimeOnly.get()
-		)
-	}
-
-	val integrationTest = task<Test>("integrationTest") {
-		description = "Runs integration tests."
-		group = "verification"
-
-		testClassesDirs = sourceSets["intTest"].output.classesDirs
-		classpath = sourceSets["intTest"].runtimeClasspath
-		shouldRunAfter("test")
-	}
-
-	tasks.check { dependsOn(integrationTest) }
-
-	sourceSets {
-		create("accTest") {
-			compileClasspath += sourceSets.main.get().output
-			compileClasspath += sourceSets.test.get().output
-			runtimeClasspath += sourceSets.main.get().output
-			runtimeClasspath += sourceSets.test.get().output
-		}
-	}
-
-	@Suppress("UNUSED_VARIABLE")
-	val accTestImplementation: Configuration by configurations.getting {
-		extendsFrom(
-				configurations.implementation.get(),
-				configurations.testImplementation.get()
-		)
-	}
-
-	@Suppress("UNUSED_VARIABLE")
-	val accTestRuntimeOnly: Configuration by configurations.getting {
-		extendsFrom(
-				configurations.runtimeOnly.get(),
-				configurations.testRuntimeOnly.get()
-		)
-	}
-
-	@Suppress("UNUSED_VARIABLE")
-	val acceptanceTest = task<Test>("acceptanceTest") {
-		description = "Runs acceptance tests."
-		group = "verification"
-
-		testClassesDirs = sourceSets["accTest"].output.classesDirs
-		classpath = sourceSets["accTest"].runtimeClasspath
-		shouldRunAfter("test")
+	tasks.named("check") {
+		dependsOn(testing.suites.named("integrationTest"))
 	}
 }
